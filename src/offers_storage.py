@@ -35,10 +35,8 @@ class OffersStorage:
         return text.strip()
 
     def _compute_content_hash(self, offer: PartOffer) -> str:
-        normalized_title = self._normalize_text(offer.title)
         normalized_desc = self._normalize_text(offer.description)
-        content = f"{normalized_title}|{normalized_desc}"
-        return hashlib.md5(content.encode("utf-8")).hexdigest()
+        return hashlib.md5(normalized_desc.encode("utf-8")).hexdigest()
 
     def contains(self, offer: PartOffer) -> bool:
         if offer.link in self._links:
