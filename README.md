@@ -24,6 +24,36 @@ source venv/bin/activate
 python -m src.main
 ```
 
+## Run as systemd service (VPS)
+
+Create `/etc/systemd/system/bazos-bot.service`:
+
+```ini
+[Unit]
+Description=Bazos Golf Parts Bot
+After=network.target
+
+[Service]
+Type=simple
+User=your_user
+WorkingDirectory=/path/to/bazos-golf-parts-bot
+ExecStart=/path/to/bazos-golf-parts-bot/venv/bin/python -m src.main
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Then:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable bazos-bot
+sudo systemctl start bazos-bot
+sudo systemctl status bazos-bot  # check if running
+sudo journalctl -u bazos-bot -f  # view logs
+```
+
 ## Bot Commands
 
 - `!status` - show stats
